@@ -1,4 +1,5 @@
 const express = require('express');
+const Component = require('../models/components.model');
 const { authJwt } = require("../middleware");
 const router = express.Router();
 
@@ -7,7 +8,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/',authJwt.verifyToken, function (req, res) {
-  console.log(req.body);
+  res.send(req.body);
 });
 
 router.get('/:id', function (req, res) {

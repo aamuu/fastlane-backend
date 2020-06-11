@@ -24,7 +24,13 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = require("../models/user.model.js")(sequelize, Sequelize);
+db.user = require("../models/users.model")(sequelize, Sequelize);
+db.component = require("../models/components.model")(sequelize, Sequelize);
+db.solution = require("../models/solutions.model")(sequelize, Sequelize);
+db.bestPractice = require("../models/bestpractices.model")(sequelize, Sequelize);
+db.contributor = require("../models/contributors.model")(sequelize, Sequelize);
+db.file = require("../models/files.model")(sequelize, Sequelize);
+db.image = require("../models/images.model")(sequelize, Sequelize);
 
 
 module.exports = db;

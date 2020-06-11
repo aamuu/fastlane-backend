@@ -1,24 +1,25 @@
 const express = require('express');
-const { authJwt } = require("../middleware");
+const Solution = require('../models/solutions.model');
+const {authJwt} = require("../middleware");
 const router = express.Router();
 
 router.get('/', function (req, res) {
     res.send('Solutions');
 });
 
-router.post('/',authJwt.verifyToken, function (req, res) {
-    console.log(req.body);
+router.post('/', authJwt.verifyToken, function (req, res) {
+    res.send(req.body);
 });
 
 router.get('/:id', function (req, res) {
     res.send('Get individual solution');
 });
 
-router.put('/:id',authJwt.verifyToken, function (req, res) {
+router.put('/:id', authJwt.verifyToken, function (req, res) {
     res.send('update individual solution');
 });
 
-router.delete('/:id',authJwt.verifyToken, function (req, res) {
+router.delete('/:id', authJwt.verifyToken, function (req, res) {
     res.send('delete individual solution');
 });
 

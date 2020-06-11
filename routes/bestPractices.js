@@ -1,4 +1,5 @@
 const express = require('express');
+const BestPractice = require('../models/bestpractices.model');
 const {authJwt} = require("../middleware");
 const router = express.Router();
 
@@ -7,7 +8,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', authJwt.verifyToken, function (req, res) {
-    console.log(req.body);
+    res.send(req.body);
 });
 
 router.get('/:id', function (req, res) {
@@ -15,7 +16,7 @@ router.get('/:id', function (req, res) {
 });
 
 router.put('/:id', authJwt.verifyToken, function (req, res) {
-    console.log(req.body);
+    res.send(req.body);
 });
 
 router.delete('/:id', authJwt.verifyToken, function (req, res) {
