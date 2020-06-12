@@ -1,27 +1,17 @@
 const express = require('express');
-const Component = require('../models/components.model');
+const Component = require('../controllers/component.controller');
 const { authJwt } = require("../middleware");
 const router = express.Router();
 
-router.get('/', function (req, res) {
-  res.send('Components');
-});
+router.get('/', Component.findAll);
 
-router.post('/',authJwt.verifyToken, function (req, res) {
-  res.send(req.body);
-});
+router.post('/',authJwt.verifyToken, Component.create);
 
-router.get('/:id', function (req, res) {
-  res.send('Get individual component');
-});
+router.get('/:id', Component.findOne);
 
-router.put('/:id',authJwt.verifyToken, function (req, res) {
-  res.send('update individual component');
-});
+router.put('/:id',authJwt.verifyToken, Component.update);
 
-router.delete('/:id',authJwt.verifyToken, function (req, res) {
-  res.send('delete individual component');
-});
+router.delete('/:id',authJwt.verifyToken, Component.delete);
 
 router.get('/download/:id', function (req, res) {
   res.send('download individual component resource');

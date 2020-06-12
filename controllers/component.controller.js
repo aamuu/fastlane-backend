@@ -1,26 +1,30 @@
 const db = require("../models");
 const Component = db.component;
-const Op = db.Sequelize.Op;
 
 // Create and Save a new Component
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.title) {
+    if (!req.body.cName) {
         res.status(400).send({
-            message: "Content can not be empty!"
+            message: "cName can not be empty!"
         });
         return;
     }
 
     // Create a Component
-    const component = {
-        title: req.body.title,
-        description: req.body.description,
-        published: req.body.published ? req.body.published : false
+    const newComponent = {
+        cName: req.body.cName,
+        shortDesc: req.body.shortDesc,
+        longDesc: req.body.longDesc,
+        AddImage: req.body.AddImage,
+        Images: req.body.Images,
+        files: req.body.files,
+        type: req.body.type,
+        contributors: req.body.contributors,
     };
 
     // Save Component in the database
-    Component.create(component)
+    Component.create(newComponent)
         .then(data => {
             res.send(data);
         })
@@ -34,10 +38,8 @@ exports.create = (req, res) => {
 
 // Retrieve all Components from the database.
 exports.findAll = (req, res) => {
-    const title = req.query.title;
-    var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
-    Component.findAll({ where: condition })
+    Component.findAll()
         .then(data => {
             res.send(data);
         })
@@ -69,7 +71,9 @@ exports.update = (req, res) => {
     const id = req.params.id;
 
     Component.update(req.body, {
-        where: { id: id }
+        where: {
+            componentsId: id,
+        }
     })
         .then(num => {
             if (num == 1) {
@@ -94,7 +98,7 @@ exports.delete = (req, res) => {
     const id = req.params.id;
 
     Component.destroy({
-        where: { id: id }
+        where: {componentsId: id}
     })
         .then(num => {
             if (num == 1) {
@@ -110,37 +114,6 @@ exports.delete = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message: "Could not delete Component with id=" + id
-            });
-        });
-};
-
-// Delete all Components from the database.
-exports.deleteAll = (req, res) => {
-    Component.destroy({
-        where: {},
-        truncate: false
-    })
-        .then(nums => {
-            res.send({ message: `${nums} Components were deleted successfully!` });
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all components."
-            });
-        });
-};
-
-// find all published Component
-exports.findAllPublished = (req, res) => {
-    Component.findAll({ where: { published: true } })
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving components."
             });
         });
 };

@@ -1,27 +1,17 @@
 const express = require('express');
-const Solution = require('../models/solutions.model');
+const Solution = require('../controllers/solution.controller');
 const {authJwt} = require("../middleware");
 const router = express.Router();
 
-router.get('/', function (req, res) {
-    res.send('Solutions');
-});
+router.get('/', Solution.findAll);
 
-router.post('/', authJwt.verifyToken, function (req, res) {
-    res.send(req.body);
-});
+router.post('/', authJwt.verifyToken, Solution.create);
 
-router.get('/:id', function (req, res) {
-    res.send('Get individual solution');
-});
+router.get('/:id', Solution.findOne);
 
-router.put('/:id', authJwt.verifyToken, function (req, res) {
-    res.send('update individual solution');
-});
+router.put('/:id', authJwt.verifyToken, Solution.update);
 
-router.delete('/:id', authJwt.verifyToken, function (req, res) {
-    res.send('delete individual solution');
-});
+router.delete('/:id', authJwt.verifyToken, Solution.delete);
 
 router.get('/download/:id', function (req, res) {
     res.send('download individual solutions resource');

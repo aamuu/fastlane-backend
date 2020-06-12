@@ -1,27 +1,17 @@
 const express = require('express');
-const BestPractice = require('../models/bestpractices.model');
+const BestPractice = require('../controllers/bestPractice.controller');
 const {authJwt} = require("../middleware");
 const router = express.Router();
 
-router.get('/', function (req, res) {
-    res.send('Best Practice');
-});
+router.get('/', BestPractice.findAll);
 
-router.post('/', authJwt.verifyToken, function (req, res) {
-    res.send(req.body);
-});
+router.post('/', authJwt.verifyToken, BestPractice.create);
 
-router.get('/:id', function (req, res) {
-    res.send('Get individual best practice');
-});
+router.get('/:id', BestPractice.findOne);
 
-router.put('/:id', authJwt.verifyToken, function (req, res) {
-    res.send(req.body);
-});
+router.put('/:id', authJwt.verifyToken, BestPractice.update);
 
-router.delete('/:id', authJwt.verifyToken, function (req, res) {
-    res.send('delete individual best practice');
-});
+router.delete('/:id', authJwt.verifyToken, BestPractice.delete);
 
 router.get('/download/:id', function (req, res) {
     res.send('download individual best practice resource');

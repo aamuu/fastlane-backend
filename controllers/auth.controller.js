@@ -41,13 +41,17 @@ exports.signin = (req, res) => {
                     message: "Invalid Password!"
                 });
             }
-
-            const token = jwt.sign({id: user.id}, config.secret, {
-                expiresIn: 86400 // 24 hours
+            const payload = {
+                user: {
+                    id: user.userId
+                }
+            };
+            const token = jwt.sign(payload, config.secret, {
+                expiresIn: 86400
             });
             res.status(200).send({
-                id: user.id,
                 email: user.email,
+                role: user.role,
                 token: token
             });
 

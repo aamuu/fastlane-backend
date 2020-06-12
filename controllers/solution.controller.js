@@ -1,26 +1,30 @@
 const db = require("../models");
 const Solution = db.solution;
-const Op = db.Sequelize.Op;
 
 // Create and Save a new Solution
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.title) {
+    if (!req.body.cName) {
         res.status(400).send({
-            message: "Content can not be empty!"
+            message: "cName can not be empty!"
         });
         return;
     }
 
     // Create a Solution
-    const solution = {
-        title: req.body.title,
-        description: req.body.description,
-        published: req.body.published ? req.body.published : false
+    const newSolution = {
+        cName: req.body.cName,
+        shortDesc: req.body.shortDesc,
+        longDesc: req.body.longDesc,
+        AddImage: req.body.AddImage,
+        Images: req.body.Images,
+        files: req.body.files,
+        type: req.body.type,
+        contributors: req.body.contributors,
     };
 
-    // Save Tutorial in the database
-    Solution.create(solution)
+    // Save Component in the database
+    Solution.create(newSolution)
         .then(data => {
             res.send(data);
         })
@@ -34,17 +38,15 @@ exports.create = (req, res) => {
 
 // Retrieve all Solutions from the database.
 exports.findAll = (req, res) => {
-    const title = req.query.title;
-    var condition = title ? {title: {[Op.like]: `%${title}%`}} : null;
 
-    Solution.findAll({where: condition})
+    Solution.findAll()
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving solutions."
+                    err.message || "Some error occurred while retrieving components."
             });
         });
 };
@@ -69,7 +71,7 @@ exports.update = (req, res) => {
     const id = req.params.id;
 
     Solution.update(req.body, {
-        where: {id: id}
+        where: {solutionsId: id}
     })
         .then(num => {
             if (num == 1) {
@@ -94,7 +96,7 @@ exports.delete = (req, res) => {
     const id = req.params.id;
 
     Solution.destroy({
-        where: {id: id}
+        where: {solutionsId: id}
     })
         .then(num => {
             if (num == 1) {
@@ -110,37 +112,6 @@ exports.delete = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message: "Could not delete Solution with id=" + id
-            });
-        });
-};
-
-// Delete all Solutions from the database.
-exports.deleteAll = (req, res) => {
-    Solution.destroy({
-        where: {},
-        truncate: false
-    })
-        .then(nums => {
-            res.send({message: `${nums} Solutions were deleted successfully!`});
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all solutions."
-            });
-        });
-};
-
-// find all published Solution
-exports.findAllPublished = (req, res) => {
-    Solution.findAll({where: {published: true}})
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving solutions."
             });
         });
 };

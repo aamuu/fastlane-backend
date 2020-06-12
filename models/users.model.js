@@ -17,6 +17,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true
+        },
+        role: {
+            type: DataTypes.ENUM,
+            values: ["0", "1", "2"],
         }
     }, {
         tableName: 'users'
