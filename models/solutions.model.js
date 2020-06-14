@@ -1,11 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
     return sequelize.define('solutions', {
-        solutionsId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true
-        },
         cName: {
             type: DataTypes.STRING,
             allowNull: false
