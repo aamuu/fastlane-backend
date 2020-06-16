@@ -71,7 +71,7 @@ exports.update = (req, res) => {
     const id = req.params.id;
 
     BestPractice.update(req.body, {
-        where: {componentsId: id}
+        where: {id: id}
     })
         .then(num => {
             if (num == 1) {

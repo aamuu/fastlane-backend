@@ -96,7 +96,7 @@ exports.delete = (req, res) => {
     const id = req.params.id;
 
     Solution.destroy({
-        where: {solutionsId: id}
+        where: {id: id}
     })
         .then(num => {
             if (num == 1) {
